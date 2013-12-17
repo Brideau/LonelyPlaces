@@ -1,0 +1,8 @@
+*.csv
+.Rhistory
+.RData
+*.Rproj
+/Original
+.scrap
+__pycache__/
+*.py[cod]
