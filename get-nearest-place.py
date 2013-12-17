@@ -23,13 +23,6 @@ lng_SE = -66.081905
 # lat_SE = 23.725012
 # lng_SE = -61.347656
 
-# About 20 miles distance_on_unit_sphere(0.29, 0, 0, 0)
-lat_incr = -.29
-lng_incr = .29
-
-# Start in the NW and iterate to the SE. Set to last scanned point if the connection breaks before the scan is finished.
-lat_curr = lat_NW
-lng_curr = lng_NW
 total_calls = 0
 
 # Select which places of interest you'd like to scan. Note that for areas with a 
@@ -75,15 +68,23 @@ def output_nearest_place(latitude, longitude, poi):
     else:
         print poi + ',' + curr_location + ',,,'
 
+def scan_given_area(start_lat, start_lng, end_lat, end_lng, place):
 
-for place in places:
+    # About 20 miles distance_on_unit_sphere(0.29, 0, 0, 0)
+    lat_incr = -.29
+    lng_incr = .29
+
+    # Start in the NW and iterate to the SE. Set to last scanned point if the connection breaks before the scan is finished.
+    lat_curr = start_lat
+    lng_curr = start_lng
+
     # Handles the up-down scan
-    while lat_curr > lat_SE:
+    while lat_curr > end_lat:
 
         # Resets longitude after each left-right scan
-        lng_curr = lng_NW
+        lng_curr = start_lng
 
-        while lng_curr < lng_SE:
+        while lng_curr < end_lng:
 
             output_nearest_place(lat_curr, lng_curr, place)
 
@@ -92,6 +93,9 @@ for place in places:
 
         # Increments the latitude
         lat_curr += lat_incr
-    lat_curr = lat_NW
-    lng_curr = lng_NW
+
+
+for place in places:
+    scan_given_area(lat_NW, lng_NW, lat_SE, lng_SE, place)
+
 print total_calls
