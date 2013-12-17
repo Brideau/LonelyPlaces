@@ -1,4 +1,4 @@
-# Used when you're running the can over multiple place types
+# Used when you're running the scan over multiple place types
 # to separate the data into different files.
 
 import csv

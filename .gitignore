@@ -6,3 +6,4 @@
 .scrap
 __pycache__/
 *.py[cod]
+googleapikey.py
