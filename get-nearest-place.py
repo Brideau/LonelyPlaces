@@ -20,8 +20,13 @@ lat_curr = 53.4211
 lng_curr = -102.350514
 total_calls = 0
 
+# Select which places of interest you'd like to scan. Note that for areas with a 
+# large land mass like Canada, you may go over Google's 100,000 daily API call limit 
+# if you scan too many at once.
+
 # places = [ 'grocery_or_supermarket', 'art_gallery', 'library' ]
-places = ['art_gallery', 'library' ]
+# places = ['art_gallery', 'library' ]
+places = [ 'grocery_or_supermarket', 'hospital', 'art_gallery' ]
 
 # Print CSV header
 print 'place, lat, lng, latnear, lngnear, dist_miles'
