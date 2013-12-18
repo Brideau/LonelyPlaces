@@ -14,7 +14,7 @@ db = (MySQLdb.connect(
 c = db.cursor()
 
 # Used to scan over multiple files
-filename = '_CanadaDate/ArtGalleries.csv'
+filename = '_CanadaData/ArtGalleries.csv'
 reader = csv.reader(open(filename, 'rb'), delimiter=',')
 skipped_header = False
 for row in reader:
