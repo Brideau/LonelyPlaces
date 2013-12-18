@@ -3,13 +3,15 @@
 
 import urllib2, simplejson, time
 from distancesphere import distance_on_unit_sphere
+from threading import Thread
+
 from googleapikey import GOOGLE_API_KEY
 
 # API Test
-lat_NW = 46.289301
-lng_NW = -67.296284
-lat_SE = 45.688815
-lng_SE = -66.081905
+lat_NW = 47.939968
+lng_NW = -69.049870
+lat_SE = 45.190144
+lng_SE = -64.270501
 
 # Canada's country corners
 # lat_NW = 83.2911
@@ -23,8 +25,6 @@ lng_SE = -66.081905
 # lat_SE = 23.725012
 # lng_SE = -61.347656
 
-total_calls = 0
-
 # Select which places of interest you'd like to scan. Note that for areas with a 
 # large land mass like Canada, you may go over Google's 100,000 daily API call limit 
 # if you scan too many at once.
@@ -34,12 +34,11 @@ total_calls = 0
 places = [ 'grocery_or_supermarket', 'hospital', 'art_gallery' ]
 
 # Print CSV header
-print 'place, lat, lng, latnear, lngnear, dist_miles'
+# print 'place, lat, lng, latnear, lngnear, dist_miles'
 
 def output_nearest_place(latitude, longitude, poi):
     """ Given a lat, long and place of interest, it 
     prints the nearest place """
-    global total_calls
     curr_location = str(latitude) + "," + str(longitude)
 
     # 28-mile search radius, which guarantees coverage of a rectangular grid by circles
@@ -49,7 +48,6 @@ def output_nearest_place(latitude, longitude, poi):
     response = urllib2.urlopen(url)
     result = response.read()
     d = simplejson.loads(result)
-    total_calls += 1
 
     # Output the nearest grocery store
     if len(d['results']) > 0:
@@ -68,7 +66,27 @@ def output_nearest_place(latitude, longitude, poi):
     else:
         print poi + ',' + curr_location + ',,,'
 
-def scan_given_area(start_lat, start_lng, end_lat, end_lng, place):
+def process_grid_sample(grid_sample, poi):
+    """ Given a  sample of the grid, this calculates the nearest place to each point"""
+    for gridpoint in grid_sample:
+        output_nearest_place(gridpoint[0], gridpoint[1], poi)
+
+def create_threads(numthreads, grid, poi):
+    """ Splits the grid into n threads to do simultaneous API calls """
+    threads = []
+    for i in range(numthreads):
+        gridpoints = grid[i::numthreads]
+        thread = Thread(target=process_grid_sample, args=(gridpoints, poi))
+        threads.append(thread)
+
+    # Start each thread, and wait for them to finish before continuing
+    [ t.start() for t in threads ]
+    [ t.join() for t in threads ]
+
+
+def create_area_grid(start_lat, start_lng, end_lat, end_lng):
+    """ Creates a grid that covers the area of interest """
+    grid = []
 
     # About 20 miles distance_on_unit_sphere(0.29, 0, 0, 0)
     lat_incr = -.29
@@ -86,16 +104,19 @@ def scan_given_area(start_lat, start_lng, end_lat, end_lng, place):
 
         while lng_curr < end_lng:
 
-            output_nearest_place(lat_curr, lng_curr, place)
+            gridpoint = lat_curr, lng_curr
+            grid.append(gridpoint)
 
             # Increments the longitude
             lng_curr += lng_incr
 
         # Increments the latitude
         lat_curr += lat_incr
+    return grid
 
+# Gets the grid of points in the area to check
+area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)
 
+# Has the grid split up into threads and processed
 for place in places:
-    scan_given_area(lat_NW, lng_NW, lat_SE, lng_SE, place)
-
-print total_calls
+    create_threads(40, area_grid, place)
