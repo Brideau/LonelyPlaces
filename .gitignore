@@ -7,5 +7,5 @@
 __pycache__/
 *.py[cod]
 googleapikey.py
-/FirstAttempt
-/SecondAttempt
+/_CanadaData
+/_USData

@@ -46,7 +46,7 @@ lng_SE = -52.524864
 places = [ 'art_gallery', 'hospital']
 
 # Print CSV header
-# print 'place, lat, lng, latnear, lngnear, dist_miles'
+print 'place, lat, lng, latnear, lngnear, dist_miles'
 
 def output_nearest_place(latitude, longitude, poi):
     """ Given a lat, long and place of interest, it 
