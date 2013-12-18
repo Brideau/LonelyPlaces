@@ -7,19 +7,19 @@ from threading import Thread
 
 from googleapikey import GOOGLE_API_KEY
 
-# API Test
-lat_NW = 47.939968
-lng_NW = -69.049870
-lat_SE = 45.190144
-lng_SE = -64.270501
+# New Brunswick
+# lat_NW = 47.939968
+# lng_NW = -69.049870
+# lat_SE = 45.190144
+# lng_SE = -64.270501
 
-# Canada's country corners
-# lat_NW = 83.2911
-# lng_NW = -140.920514
-# lat_SE = 42.016722
-# lng_SE = -52.524864
+# Canada
+lat_NW = 83.2911
+lng_NW = -140.920514
+lat_SE = 42.016722
+lng_SE = -52.524864
 
-# USA's country corners
+# USA
 # lat_NW = 49.44098806129775
 # lng_NW = -127.13476612499217
 # lat_SE = 23.725012
@@ -31,7 +31,9 @@ lng_SE = -64.270501
 
 # places = [ 'grocery_or_supermarket', 'art_gallery', 'library' ]
 # places = ['art_gallery', 'library' ]
-places = [ 'grocery_or_supermarket', 'hospital', 'art_gallery' ]
+# places = [ 'grocery_or_supermarket', 'hospital', 'art_gallery' ]
+
+places = [ 'grocery_or_supermarket', 'library']
 
 # Print CSV header
 # print 'place, lat, lng, latnear, lngnear, dist_miles'
@@ -119,4 +121,4 @@ area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)
 
 # Has the grid split up into threads and processed
 for place in places:
-    create_threads(40, area_grid, place)
+    create_threads(30, area_grid, place)
