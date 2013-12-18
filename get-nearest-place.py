@@ -4,11 +4,12 @@
 import urllib2, time, requests
 from distancesphere import distance_on_unit_sphere
 from threading import Thread, Lock
+from random import randrange
 
 from googleapikey import GOOGLE_API_KEY
 
 # Used to prevent file write issues later
-thread_lock = Lock()
+print_lock = Lock()
 
 # New Brunswick
 # lat_NW = 47.939968
@@ -49,8 +50,14 @@ def output_nearest_place(latitude, longitude, poi):
     # 28-mile search radius, which guarantees coverage of a rectangular grid by circles
     url = 'https://maps.googleapis.com/maps/api/place/search/json?location=' + curr_location + '&sensor=false&key=' + GOOGLE_API_KEY + '&radius=46000&types=' + poi
 
-    # Ping the API
-    response = requests.get(url)
+    # Ping the API, and take a break if Google is angry
+    while True:
+        try:
+            response = requests.get(url)
+            break
+        except requests.ConnectionError:
+            time.sleep(randrange(3,9))
+    
     d = response.json()
 
     # Output the nearest grocery store
@@ -66,18 +73,18 @@ def output_nearest_place(latitude, longitude, poi):
                 nearest_lat = near_lat
                 nearest_lng = near_lng
         # Prevents issues with file writing
-        thread_lock.acquire()
+        print_lock.acquire()
         try:
             print poi + ',' + curr_location + ',' + str(nearest_lat) + ',' + str(nearest_lng) + ',' + str(least_miles)
         finally:
-            thread_lock.release()
+            print_lock.release()
     # Or, no location found
     else:
-        thread_lock.acquire()
+        print_lock.acquire()
         try:
             print poi + ',' + curr_location + ',,,'
         finally:
-            thread_lock.release()
+            print_lock.release()
 
 def process_grid_sample(grid_sample, poi):
     """ Given a  sample of the grid, this calculates the nearest place to each point"""
@@ -132,4 +139,4 @@ area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)
 
 # Has the grid split up into threads and processed
 for place in places:
-    create_threads(20, area_grid, place)
+    create_threads(10, area_grid, place)
