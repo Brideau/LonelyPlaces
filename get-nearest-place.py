@@ -1,7 +1,7 @@
 # This scans the entire country for various types of places and retrieves the 
 # nearest one to a grid of points.
 
-import urllib2, simplejson, time
+import urllib2, time, requests
 from distancesphere import distance_on_unit_sphere
 from threading import Thread
 
@@ -33,7 +33,7 @@ lng_SE = -52.524864
 # places = ['art_gallery', 'library' ]
 # places = [ 'grocery_or_supermarket', 'hospital', 'art_gallery' ]
 
-places = [ 'grocery_or_supermarket', 'library']
+places = [ 'art_gallery', 'hospital']
 
 # Print CSV header
 # print 'place, lat, lng, latnear, lngnear, dist_miles'
@@ -47,9 +47,8 @@ def output_nearest_place(latitude, longitude, poi):
     url = 'https://maps.googleapis.com/maps/api/place/search/json?location=' + curr_location + '&sensor=false&key=' + GOOGLE_API_KEY + '&radius=46000&types=' + poi
 
     # Ping the API
-    response = urllib2.urlopen(url)
-    result = response.read()
-    d = simplejson.loads(result)
+    response = requests.get(url)
+    d = response.json()
 
     # Output the nearest grocery store
     if len(d['results']) > 0:
@@ -121,4 +120,4 @@ area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)
 
 # Has the grid split up into threads and processed
 for place in places:
-    create_threads(30, area_grid, place)
+    create_threads(10, area_grid, place)
