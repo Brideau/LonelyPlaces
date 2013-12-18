@@ -9,12 +9,12 @@ db = (MySQLdb.connect(
       port=8889,
       user="root",
       passwd="root",
-      db="can_art"))
+      db="can_hosp"))
 
 c = db.cursor()
 
 # Used to scan over multiple files
-filename = '_CanadaData/ArtGalleries.csv'
+filename = '_CanadaData/Hospital.csv'
 reader = csv.reader(open(filename, 'rb'), delimiter=',')
 skipped_header = False
 for row in reader:
@@ -28,13 +28,13 @@ for row in reader:
         continue
 
     # Only add unique locations
-    query = ("SELECT * FROM `grocery` WHERE `latitude` = '"
+    query = ("SELECT * FROM `hospital` WHERE `latitude` = '"
              + str(row[2]) + "' AND `longitude` = '"
              + str(row[3]) + "'")
     c.execute(query)
     if len(c.fetchall()) > 0:
         continue
 
-    sql = ("INSERT INTO `grocery` (latitude, longitude) VALUES ("
+    sql = ("INSERT INTO `hospital` (latitude, longitude) VALUES ("
            + "'" + str(row[2]) + "','" + str(row[3]) + "'" + ")")
     c.execute(sql)
