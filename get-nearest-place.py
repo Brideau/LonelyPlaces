@@ -17,6 +17,12 @@ print_lock = Lock()
 # lat_SE = 45.190144
 # lng_SE = -64.270501
 
+# Fredericton
+# lat_NW = 45.998931
+# lng_NW = -66.748867
+# lat_SE = 45.870202
+# lng_SE = -66.550709
+
 # Canada
 lat_NW = 83.2911
 lng_NW = -140.920514
