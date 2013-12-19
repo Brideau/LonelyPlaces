@@ -1,6 +1,6 @@
 *.csv
 .Rhistory
-*.RData
+.RData
 *.Rproj
 /Original
 .scrap
@@ -9,5 +9,5 @@ __pycache__/
 googleapikey.py
 /_CanadaData
 /_USData
-/CanadaGeoData/CAN_adm
-*.shp
+/CanadaGeoData
+*.RData
