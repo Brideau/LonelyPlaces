@@ -1,9 +1,9 @@
 Copyright (c) 2013 Ryan Brideau
 
-- Used threading to speed up API calls
+- Used threading to speed up API calls, and added a progress bar with ETA
 - Added ability to retrieve more than one place-type at the same time
 - Changed HTTP library to Requests
-- Updated geography to focus on Canada
+- Updated spatial code to generalize for any country using GADM data
 - Made small fix to ensure the search radius size would cover the entire area of interest
 
 ORIGINAL AUTHOR:

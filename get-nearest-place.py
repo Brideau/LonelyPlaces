@@ -2,7 +2,6 @@
 # types of places and retrieves the nearest
 # one to a grid of points.
 
-import urllib2
 import time
 import requests
 from progressbar import Percentage, Bar, ProgressBar, \
