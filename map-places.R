@@ -8,7 +8,7 @@ library(ggmap)
 # Map-specific variables
 latFocus = c(39, 45) # (lat0, lat1) where the Albers projection is accurate
 lineColours = c("#ffffff", "red")
-fileName = "nearest-grocery-fullUS.csv"
+fileName = "_CanadaData/Hospital.csv"
 
 getLineColor <- function(val) {
   pal <- colorRampPalette(lineColours)

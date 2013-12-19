@@ -1,10 +1,12 @@
-# This scans the entire country for various types of places and retrieves the 
-# nearest one to a grid of points.
+# This scans the entire country for various
+# types of places and retrieves the nearest
+# one to a grid of points.
 
-import urllib2, time, requests
+import urllib2, time, requests, progressbar
 from distancesphere import distance_on_unit_sphere
 from threading import Thread, Lock
 from random import randrange
+
 
 from googleapikey import GOOGLE_API_KEY
 

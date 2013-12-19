@@ -10,3 +10,4 @@ googleapikey.py
 /_CanadaData
 /_USData
 /CanadaGeoData/CAN_adm
+*.shp
