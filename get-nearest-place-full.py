@@ -1,12 +1,15 @@
 # This returns a CSV of the closest place to every point on the grid
 
 import MySQLdb
+from progressbar import Percentage, Bar, ProgressBar, \
+    ETA
+
 db = (MySQLdb.connect(
       host="127.0.0.1",
       port=8889,
       user="root",
       passwd="root",
-      db="can_hosp"))
+      db="can_lib"))
 c = db.cursor()
 
 # Canada
@@ -25,6 +28,11 @@ lng_SE = -52.524864
 lat_incr = -.29
 lng_incr = .29
 
+grid_points = ((lat_NW - lat_SE)/lat_incr)*((lng_NW - lng_SE)/lng_incr)
+progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
+                ETA()], maxval=grid_points).start())
+progress = 0
+
 # Start in the northwest and iterate to the southeast
 lat_curr = lat_NW
 lng_curr = lng_NW
@@ -33,6 +41,8 @@ print("lat,lng,latnear,lngnear,dist_miles")
 while lat_curr > lat_SE:
     lng_curr = lng_NW
     while lng_curr < lng_SE:
+        progress += 1
+        progress_bar.update(progress)
         # distance_on_unit_sphere(1, 0, 0, 0) = 69.1
         # Equirectangular approximation:
         # http://www.movable-type.co.uk/scripts/latlong.html
@@ -40,7 +50,7 @@ while lat_curr > lat_SE:
         sql += "latitude - " + str(lat_curr) + "), 2) + "
         sql += "POW(69.1 * (" + str(lng_curr) + " - longitude) "
         sql += "* COS(latitude / 57.3), 2)) AS distance FROM "
-        sql += "`hospital` ORDER BY distance LIMIT 0,1"
+        sql += "`library` ORDER BY distance LIMIT 0,1"
         c.execute(sql)
         result = c.fetchall()[0]
         curr_location = str(lat_curr) + "," + str(lng_curr)
@@ -51,3 +61,5 @@ while lat_curr > lat_SE:
               + str(nearest_lng) + ',' + str(miles))
         lng_curr += lng_incr
     lat_curr += lat_incr
+
+progress_bar.finish()

@@ -3,7 +3,7 @@
 
 import csv
 
-placeType = "library"
+placeType = "grocery_or_supermarket"
 
 print("lat, lng, latnear, lngnear, dist_miles")
 
@@ -23,7 +23,7 @@ print("lat, lng, latnear, lngnear, dist_miles")
 #                   + ',' + row[4] + ',' + row[5])
 
 # Use when you only have one file that contains more than one place of interest
-file = 'SecondAttempt/CanadaData1.csv'
+file = 'LibGroceryData.csv'
 reader = csv.reader(open(file, 'rb'), delimiter=',')
 skipped_header = False
 for row in reader:
