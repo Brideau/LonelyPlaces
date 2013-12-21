@@ -6,7 +6,7 @@ library(mapdata)
 library(geosphere)
 library(ggmap)
 
-fileName = "_CanadaData/CanadaHospitalComplete.csv"
+fileName = "_CanadaData/CanadaGroceryComplete.csv"
 
 getLineColor <- function(val) {
   pal <- colorRampPalette(lineColours)
@@ -39,12 +39,9 @@ createMap <- function(bbox, thedata, map.zoom) {
 canada <- c(-140.920514, 42.016722, -52.524864, 83.2911)
 createMap(canada, location, 3)
 
-canada.subset <- c(-134.340440, 41.708555, -51.936184, 52.616560)
-createMap(canada.subset, location, 3)
-
-new_brunswick <- c(-69.049870, 45.190144, -64.270501, 47.939968)
-createMap(new_brunswick, subset(location, state=='New Brunswick'), 7)
+# new_brunswick <- c(-69.049870, 45.190144, -64.270501, 47.939968)
+# createMap(new_brunswick, subset(location, state=='New Brunswick'), 7)
 
 # You can also submit multiple states at once:
 # nv.ut.ca.az <- c(-124.23168322999285, 31.460280893111246, -108.14769885499943, 42.32097191215088)
-# stateMap(nv.ut.ca.az, subset(location, state=='nevada' | state == 'utah' | state == 'california' | state == 'arizona'))
+# createMap(nv.ut.ca.az, subset(location, state=='nevada' | state == 'utah' | state == 'california' | state == 'arizona'))
