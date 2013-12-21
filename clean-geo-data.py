@@ -1,5 +1,5 @@
-# Used when you're running the scan over multiple place types
-# to separate the data into different files.
+# Used when you're running the scan over multiple place
+# types to separate the data into different files.
 
 import csv
 
@@ -8,7 +8,7 @@ placeType = "library"
 print("lat, lng, latnear, lngnear, dist_miles")
 
 # Use when you have more than one file that needs to be combined
-# for i in range(1,5):
+# for i in range(1, 5):
 #     filename = 'nearest-GrocArtHospCAN' + str(i) + '.csv'
 #     reader = csv.reader(open(filename, 'rb'), delimiter=',')
 #     skipped_header = False
@@ -19,7 +19,8 @@ print("lat, lng, latnear, lngnear, dist_miles")
 #             continue
 
 #         if str(row[0]) == placeType:
-#             print row[1] + ',' + row[2] + ',' + row[3] + ',' + row[4] + ',' + row[5]
+#             print(row[1] + ',' + row[2] + ',' + row[3]
+#                   + ',' + row[4] + ',' + row[5])
 
 # Use when you only have one file that contains more than one place of interest
 file = 'SecondAttempt/CanadaData1.csv'
