@@ -31,13 +31,16 @@ location$nearstate <- latlong2state(data.frame(location$lngnear, location$latnea
 location <- na.omit(location)
 
 createMap <- function(bbox, thedata, map.zoom) {
-  basemap <- get_map(location=bbox, zoom=map.zoom, source='google', maptype="roadmap", color="bw")
+  basemap <- get_map(location=bbox, zoom=map.zoom, source='google', maptype="roadmap", color="color")
   ggmap(basemap) + geom_segment(aes(x=lng, xend=lngnear, y=lat, yend=latnear, color=dist_miles), size=0.6, data=thedata) + geom_point(aes(x=lngnear, y=latnear), size=2, color="#000000", border="black", data=thedata) + scale_color_gradient(low="blue", high="red", limits=c(0, max(thedata$dist_miles)))
 }
 
 # Country bounding box c(left, bottom, right, top)
 canada <- c(-140.920514, 42.016722, -52.524864, 83.2911)
 createMap(canada, location, 3)
+
+canada.subset <- c(-134.340440, 41.708555, -51.936184, 52.616560)
+createMap(canada.subset, location, 3)
 
 new_brunswick <- c(-69.049870, 45.190144, -64.270501, 47.939968)
 createMap(new_brunswick, subset(location, state=='New Brunswick'), 7)
