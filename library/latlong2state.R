@@ -8,8 +8,15 @@ library(raster)
 
 latlong2state <- function(pointsDF) {
   
-  # Load the data downloaded from http://www.gadm.org/
-  country.data <- getData('GADM', country="CAN", level = 1)
+  # Saves the country geo data locally
+  localDir <- 'library/geodata'
+  if (!file.exists(localDir)) {
+    dir.create(localDir)
+  }
+  # Load the data downloaded from http://www.gadm.org/. Level 1 contains province/state level data.
+  country.data <- getData('GADM', country="CAN", level = 1, download=TRUE, path='library/geodata')
+  
+  start.time <- Sys.time()
   # Pull the names out of the data file
   stateNames <- country.data$NAME_1
   country_sp <- SpatialPolygons(country.data@polygons, proj4string=CRS("+proj=longlat +datum=WGS84"))
@@ -22,5 +29,6 @@ latlong2state <- function(pointsDF) {
   
   # Return the state names of the Polygons object containing each point
   stateNames[indicies]
+  print(Sys.time() - start.time)
 }
 
