@@ -17,22 +17,20 @@ latlong2state <- function(pointsDF) {
   # Load the data downloaded from http://www.gadm.org/. Level 1 contains province/state level data.
   country.data <- getData('GADM', country="CAN", level = 1, download=TRUE, path='library/geodata')
   
-  start.time <- Sys.time()
   # Pull the names out of the data file
   stateNames <- country.data$NAME_1
   country_sp <- SpatialPolygons(country.data@polygons, proj4string=CRS("+proj=longlat +datum=WGS84"))
   
   # Simplify the province data using the Douglas-Peuker algorithm. Results in overall
   # speed increase of 3x, and on Canadian data, only missed 1/20000 points.
-  country_sp.simple <- gSimplify(country_sp, tol=0.01, topologyPreserve=TRUE)
+  country_sp <- gSimplify(country_sp, tol=0.01, topologyPreserve=TRUE)
   
   # Convert pointsDF to a SpatialPoints object
   pointsSP <- SpatialPoints(pointsDF, proj4string=CRS("+proj=longlat +datum=WGS84"))
   
   # Use 'over' to get _indicies_ of the Polygons object containing each point
-  indicies.simple <- over(pointsSP, country_sp.simple)
+  indicies <- over(pointsSP, country_sp)
   
   # Return the state names of the Polygons object containing each point
   stateNames[indicies]
-  print(Sys.time() - start.time)
 }

@@ -6,7 +6,7 @@ library(geosphere)
 library(ggmap)
 
 # Map-specific variables
-latFocus = c(39, 45) # (lat0, lat1) where the Albers projection is accurate
+latFocus = c(57.5, -86.8) # (lat0, lat1) where the Albers projection is accurate
 lineColours = c("#ffffff", "red")
 fileName = "_CanadaData/Hospital.csv"
 
