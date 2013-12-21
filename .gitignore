@@ -14,3 +14,6 @@ googleapikey.py
 /Backup
 *.sublime-project
 *.sublime-workspace
+*.png
+*.PNG
+*.pdf
