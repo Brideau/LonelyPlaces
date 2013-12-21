@@ -11,3 +11,6 @@ googleapikey.py
 /_USData
 /CanadaGeoData
 *.RData
+/Backup
+*.sublime-project
+*.sublime-workspace

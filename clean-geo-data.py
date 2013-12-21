@@ -3,9 +3,9 @@
 
 import csv
 
-placeType = "hospital"
+placeType = "library"
 
-print "lat, lng, latnear, lngnear, dist_miles"
+print("lat, lng, latnear, lngnear, dist_miles")
 
 # Use when you have more than one file that needs to be combined
 # for i in range(1,5):
@@ -32,4 +32,5 @@ for row in reader:
         continue
 
     if str(row[0]) == placeType:
-        print row[1] + ',' + row[2] + ',' + row[3] + ',' + row[4] + ',' + row[5]
+        print(row[1] + ',' + row[2] + ',' + row[3]
+              + ',' + row[4] + ',' + row[5])
