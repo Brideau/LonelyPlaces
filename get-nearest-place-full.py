@@ -9,7 +9,7 @@ db = (MySQLdb.connect(
       port=8889,
       user="root",
       passwd="root",
-      db="can_lib"))
+      db="can_groc"))
 c = db.cursor()
 
 # Canada
@@ -28,7 +28,7 @@ lng_SE = -52.524864
 lat_incr = -.29
 lng_incr = .29
 
-grid_points = ((lat_NW - lat_SE)/lat_incr)*((lng_NW - lng_SE)/lng_incr)
+grid_points = ((lat_NW - lat_SE)/lat_incr)*((lng_NW - lng_SE)/lng_incr)*1.05
 progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
                 ETA()], maxval=grid_points).start())
 progress = 0
@@ -50,7 +50,7 @@ while lat_curr > lat_SE:
         sql += "latitude - " + str(lat_curr) + "), 2) + "
         sql += "POW(69.1 * (" + str(lng_curr) + " - longitude) "
         sql += "* COS(latitude / 57.3), 2)) AS distance FROM "
-        sql += "`library` ORDER BY distance LIMIT 0,1"
+        sql += "`grocery` ORDER BY distance LIMIT 0,1"
         c.execute(sql)
         result = c.fetchall()[0]
         curr_location = str(lat_curr) + "," + str(lng_curr)
