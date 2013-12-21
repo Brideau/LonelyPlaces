@@ -1,26 +1,26 @@
-# Given a lat and long, it returns the state it is in, or NA if it isn't in a state
-
 library(sp)
-library(maps)
+library(rgdal)
 library(maptools)
+library(raster)
 
 # This function accepts a dataframe with Col 1 being longitude in degrees
 # and Col 2 being latitude in degrees.
 
 latlong2state <- function(pointsDF) {
-  # Loads all the spatial polygons for plotting the states
-  states <- map('state', fill=TRUE, col="transparent", plot=FALSE)
-  # Cleans up the state data
-  IDs <-sapply(strsplit(states$names, ":"), function(x) x[1])
-  states_sp <- map2SpatialPolygons(states, IDs = IDs, proj4string=CRS("+proj=longlat +datum=wgs84"))
+  
+  # Load the data downloaded from http://www.gadm.org/
+  country.data <- getData('GADM', country="CAN", level = 1)
+  # Pull the names out of the data file
+  stateNames <- country.data$NAME_1
+  country_sp <- SpatialPolygons(country.data@polygons, proj4string=CRS("+proj=longlat +datum=WGS84"))
   
   # Convert pointsDF to a SpatialPoints object
-  pointsSP <- SpatialPoints(pointsDF, proj4string=CRS("+proj=longlat +datum=wgs84"))
+  pointsSP <- SpatialPoints(pointsDF, proj4string=CRS("+proj=longlat +datum=WGS84"))
   
   # Use 'over' to get _indicies_ of the Polygons object containing each point
-  indicies <- over(pointsSP, states_sp)
+  indicies <- over(pointsSP, country_sp)
   
   # Return the state names of the Polygons object containing each point
-  stateNames <- sapply(states_sp@polygons, function(x) x@ID)
   stateNames[indicies]
 }
+
