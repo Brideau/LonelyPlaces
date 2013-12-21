@@ -2,13 +2,14 @@ source('./library/latlong2state.R')
 
 library(maps)
 library(mapproj)
+library(mapdata)
 library(geosphere)
 library(ggmap)
 
 # Map-specific variables
-latFocus = c(57.5, -86.8) # (lat0, lat1) where the Albers projection is accurate
+latFocus = c(50, 75) # (lat0, lat1) where the Albers projection is accurate
 lineColours = c("#ffffff", "red")
-fileName = "_CanadaData/Hospital.csv"
+fileName = "_CanadaData/CanadaHospitalComplete.csv"
 
 getLineColor <- function(val) {
   pal <- colorRampPalette(lineColours)
@@ -33,7 +34,7 @@ location$nearstate <- latlong2state(data.frame(location$lngnear, location$latnea
 location <- na.omit(location)
 
 # Draw a base map. Albers is true scale at lat0, lat1
-map("state", proj="albers", param=latFocus, col="#999999", fill=FALSE, bg="#ffffff", lwd=0.8)
+map("worldHires", "Canada", proj="albers", param=latFocus, col="#999999", fill=FALSE, bg="#ffffff", lwd=0.8)
 
 # Plot the grid points
 pts0 <- mapproject(unlist(location[, 'lng']), unlist(location[, 'lat']))
