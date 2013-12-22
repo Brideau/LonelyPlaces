@@ -1,4 +1,4 @@
-CanadianDeserts
+Lonely Places
 ===============
 
 Extracts location data about various place types from Google Places, and produces a line map showing how close a grid of locations are from these places.
