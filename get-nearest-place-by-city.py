@@ -107,6 +107,7 @@ def create_threads(numthreads, cities, poi):
     [t.start() for t in threads]
     [t.join() for t in threads]
 
+# I got my centroid list from here: http://geocoder.ca/?freedata=1
 cities = cities_list("library/geodata/canada_cities.csv")
 
 progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
