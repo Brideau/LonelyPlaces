@@ -52,6 +52,26 @@ def create_buildings_list(property_id_list):
     return town_locations
 
 
+def create_recycling_list(property_id_list):
+    """ Generate a set of a town list from a file """
+    file_reader = csv.reader(open(property_id_list, 'rb'), delimiter=',')
+    recycling_locations = []
+    skipped_header = False
+    for row in file_reader:
+        if not skipped_header:
+            skipped_header = True
+            continue
+        try:
+            x_coor = float(row[1])
+            y_coor = float(row[2])
+        except ValueError:
+            continue
+        location = pyproj.transform(nb_coords, wgs84, x_coor, y_coor)
+        depot = location[1], location[0]
+        recycling_locations.append(depot)
+    return recycling_locations
+
+
 def create_area_grid(start_lat, start_lng, end_lat, end_lng,
                      increment=0.2697118131790):
     """ Creates a grid that covers the area of interest """

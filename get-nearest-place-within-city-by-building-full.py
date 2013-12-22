@@ -8,7 +8,7 @@ db = (MySQLdb.connect(
       port=8889,
       user="root",
       passwd="root",
-      db="fred_grocery"))
+      db="Fredericton"))
 c = db.cursor()
 
 building_list = create_buildings_list('library/geodata/locations.csv')
@@ -23,7 +23,7 @@ for building in building_list:
     sql += "latitude - " + str(building[0]) + "), 2) + "
     sql += "POW(111.30 * (" + str(building[1]) + " - longitude) "
     sql += "* COS(latitude / 72.97), 2)) AS distance FROM "
-    sql += "`grocery` ORDER BY distance LIMIT 0,1"
+    sql += "`recycling` ORDER BY distance LIMIT 0,1"
     c.execute(sql)
     result = c.fetchall()[0]
     curr_location = str(building[0]) + "," + str(building[1])
