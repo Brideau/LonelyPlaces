@@ -1,5 +1,6 @@
 Copyright (c) 2013 Ryan Brideau
 
+- Added ability to scan from a list of towns and cities
 - Used threading to speed up API calls, and added a progress bar with ETA
 - Added ability to retrieve more than one place-type at the same time
 - Changed HTTP library to Requests
