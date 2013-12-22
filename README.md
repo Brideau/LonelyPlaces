@@ -12,6 +12,7 @@ Run in the following order if you want to scan an area with a uniform grid:
 5. **map-places.R**: Maps the data produced in step 4.
 
 Run in the following order if you want to scan an area and have a list of cities:
+
 1. **get-nearest-place-by-city.py**: Takes in a list of cities and finds the nearest place of interest to each one.
 2. **get-nearest-place-grid.py**: Scans the entire area you're looking at and records the location of the nearest place of interest to points on a grid. Used to fill in the gaps between cities for remote areas.
 2. **clean-geo-data.py**: Separates data into separate files if you run the Google Places scan using multiple "place types"

@@ -10,7 +10,7 @@ db = (MySQLdb.connect(
       port=8889,
       user="root",
       passwd="root",
-      db="can_groc"))
+      db="can_lib_city"))
 c = db.cursor()
 
 cities = cities_list("library/geodata/canada_cities.csv")
@@ -32,7 +32,7 @@ for city in cities:
     sql += "latitude - " + str(city[0]) + "), 2) + "
     sql += "POW(69.1 * (" + str(city[1]) + " - longitude) "
     sql += "* COS(latitude / 57.3), 2)) AS distance FROM "
-    sql += "`grocery` ORDER BY distance LIMIT 0,1"
+    sql += "`library` ORDER BY distance LIMIT 0,1"
     c.execute(sql)
     result = c.fetchall()[0]
     curr_location = str(city[0]) + "," + str(city[1])
