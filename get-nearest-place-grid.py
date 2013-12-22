@@ -22,12 +22,6 @@ print_lock = Lock()
 # lat_SE = 45.190144
 # lng_SE = -64.270501
 
-# Fredericton
-# lat_NW = 45.998931
-# lng_NW = -66.748867
-# lat_SE = 45.870202
-# lng_SE = -66.550709
-
 # Canada
 lat_NW = 83.2911
 lng_NW = -140.920514
@@ -67,7 +61,7 @@ def output_nearest_place(latitude, longitude, poi):
     url = "https://maps.googleapis.com/maps/api"
     url += "/place/search/json?location="
     url += curr_location + "&sensor=false&key="
-    url += GOOGLE_API_KEY + "&radius=46000&types=" + poi
+    url += GOOGLE_API_KEY + "&radius=23000&types=" + poi
 
     # Ping the API, and take a break if Google is angry
     while True:
@@ -131,39 +125,6 @@ def create_threads(numthreads, grid, poi):
     # Start each thread, and wait for them to finish before continuing
     [t.start() for t in threads]
     [t.join() for t in threads]
-
-
-def create_area_grid(start_lat, start_lng, end_lat, end_lng):
-    """ Creates a grid that covers the area of interest """
-    grid = []
-
-    # About 20 miles distance_on_unit_sphere(0.29, 0, 0, 0)
-    lat_incr = -.29
-    lng_incr = .29
-
-    # Start in the NW and iterate to the SE. Set to
-    # last scanned point if the connection breaks
-    # before the scan is finished.
-    lat_curr = start_lat
-    lng_curr = start_lng
-
-    # Handles the up-down scan
-    while lat_curr > end_lat:
-
-        # Resets longitude after each left-right scan
-        lng_curr = start_lng
-
-        while lng_curr < end_lng:
-
-            gridpoint = lat_curr, lng_curr
-            grid.append(gridpoint)
-
-            # Increments the longitude
-            lng_curr += lng_incr
-
-        # Increments the latitude
-        lat_curr += lat_incr
-    return grid
 
 # Gets the grid of points in the area to check
 area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)

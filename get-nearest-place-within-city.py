@@ -17,11 +17,14 @@ from googleapikey import GOOGLE_API_KEY
 # Used to prevent file write issues later
 print_lock = Lock()
 
+# Fredericton
+lat_NW = 45.998931
+lng_NW = -66.748867
+lat_SE = 45.870202
+lng_SE = -66.550709
+
 # Select which places of interest you'd like to
-# scan. Note that for areas with a large land
-# mass like Canada, you may go over Google's
-# 100,000 daily API call limit if you scan too
-# many at once.
+# scan.
 
 # places = ['grocery_or_supermarket', 'art_gallery', 'library']
 # places = ['art_gallery', 'library']
