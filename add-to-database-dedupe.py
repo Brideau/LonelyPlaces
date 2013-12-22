@@ -9,13 +9,13 @@ db = (MySQLdb.connect(
       port=8889,
       user="root",
       passwd="root",
-      db="can_lib_city"))
+      db="fred_grocery"))
 
 c = db.cursor()
 
 # If you did a scan by city, run once for each cleaned file from
 # get-nearest-place-by-city and get-nearest-place-grid
-filename = '_CanadaData/CanadaLibrary.csv'
+filename = '_CanadaData/FrederictonGrocery.csv'
 reader = csv.reader(open(filename, 'rb'), delimiter=',')
 
 skipped_header = False
@@ -30,13 +30,13 @@ for row in reader:
         continue
 
     # Only add unique locations
-    query = ("SELECT * FROM `library` WHERE `latitude` = '"
+    query = ("SELECT * FROM `grocery` WHERE `latitude` = '"
              + str(row[2]) + "' AND `longitude` = '"
              + str(row[3]) + "'")
     c.execute(query)
     if len(c.fetchall()) > 0:
         continue
 
-    sql = ("INSERT INTO `library` (latitude, longitude) VALUES ("
+    sql = ("INSERT INTO `grocery` (latitude, longitude) VALUES ("
            + "'" + str(row[2]) + "','" + str(row[3]) + "'" + ")")
     c.execute(sql)

@@ -1,8 +1,6 @@
 # This returns a CSV of the closest place to every point on the grid
 
 import MySQLdb
-from progressbar import Percentage, Bar, ProgressBar, \
-    ETA
 
 db = (MySQLdb.connect(
       host="127.0.0.1",
@@ -26,12 +24,6 @@ lng_SE = -52.524864
 
 # About 30 km
 incr = .2697118131790
-lng_incr = .2697118131790
-
-grid_points = ((lat_NW - lat_SE)/-1*incr)*((lng_NW - lng_SE)/lng_incr)*1.02
-progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
-                ETA()], maxval=grid_points).start())
-progress = 0
 
 # Start in the northwest and iterate to the southeast
 lat_curr = lat_NW
@@ -41,8 +33,6 @@ print("lat,lng,latnear,lngnear,dist_km")
 while lat_curr > lat_SE:
     lng_curr = lng_NW
     while lng_curr < lng_SE:
-        progress += 1
-        progress_bar.update(progress)
         # distance_on_unit_sphere(1, 0, 0, 0) = 111.30
         # Equirectangular approximation at 49th parallel:
         # http://www.movable-type.co.uk/scripts/latlong.html
@@ -59,7 +49,5 @@ while lat_curr > lat_SE:
         kilometres = result[2]
         print(curr_location + ',' + str(nearest_lat) + ','
               + str(nearest_lng) + ',' + str(kilometres))
-        lng_curr += lng_incr
+        lng_curr += incr
     lat_curr -= incr
-
-progress_bar.finish()
