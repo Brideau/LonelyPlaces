@@ -3,7 +3,7 @@
 # one to a grid of points.
 
 from outputnearest import output_nearest_place
-from creategrid import create_area_grid
+from generatesearchlocations import create_area_grid
 from threading import Lock
 from createthreads import create_threads
 

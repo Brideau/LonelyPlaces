@@ -1,7 +1,7 @@
 Copyright (c) 2013 Ryan Brideau
 
-- Added ability to scan from a list of towns and cities
-- Used threading to speed up API calls, and added a progress bar with ETA
+- Added ability to scan from a list of towns and cities, or for smaller geographies, by building locations
+- Used threading to speed up API calls
 - Added ability to retrieve more than one place-type at the same time
 - Changed HTTP library to Requests
 - Updated spatial code to generalize for any country using GADM data

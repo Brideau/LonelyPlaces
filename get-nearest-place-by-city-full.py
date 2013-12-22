@@ -1,7 +1,7 @@
 # This returns a CSV of the closest place to every point on the grid
 
 import MySQLdb
-from createcitieslist import cities_list
+from generatesearchlocations import cities_list
 
 db = (MySQLdb.connect(
       host="127.0.0.1",

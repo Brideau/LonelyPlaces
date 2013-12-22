@@ -6,7 +6,7 @@ library(mapdata)
 library(geosphere)
 library(ggmap)
 
-fileName = "_CanadaData/FrederictonGroceryFull.csv"
+fileName = "_CanadaData/FrederictonGroceryByBuildingFull.csv"
 
 getLineColor <- function(val) {
   pal <- colorRampPalette(lineColours)
@@ -26,8 +26,8 @@ getLineColor <- function(val) {
 location <- read.csv(fileName, stringsAsFactors=FALSE)
 
 # Omit locations that are not on the map of focus
-location$state <- latlong2state(data.frame(location$lng, location$lat))
-location$nearstate <- latlong2state(data.frame(location$lngnear, location$latnear))
+# location$state <- latlong2state(data.frame(location$lng, location$lat))
+# location$nearstate <- latlong2state(data.frame(location$lngnear, location$latnear))
 location <- na.omit(location)
 
 createMap <- function(bbox, thedata, mapzoom=3, linesize=0.6, pointsize=2) {

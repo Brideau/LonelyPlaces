@@ -2,7 +2,7 @@
 # types of places and retrieves the nearest
 # one to a grid of points.
 
-from creategrid import create_area_grid
+from generatesearchlocations import create_area_grid
 from threading import Lock
 from createthreads import create_threads
 from outputnearest import output_nearest_place
