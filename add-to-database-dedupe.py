@@ -13,6 +13,8 @@ db = (MySQLdb.connect(
 
 c = db.cursor()
 
+# If you did a scan by city, run once for each cleaned file from
+# get-nearest-place-by-city and get-nearest-place-grid
 filename = '_CanadaData/CanadaLibrary.csv'
 reader = csv.reader(open(filename, 'rb'), delimiter=',')
 

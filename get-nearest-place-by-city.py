@@ -4,7 +4,7 @@
 
 import time
 import requests
-import csv
+from createcitieslist import cities_list
 from progressbar import Percentage, Bar, ProgressBar, \
     ETA
 from distancesphere import distance_on_unit_sphere
@@ -107,21 +107,7 @@ def create_threads(numthreads, cities, poi):
     [t.start() for t in threads]
     [t.join() for t in threads]
 
-
-def create_cities_list(city_centroid_file):
-    """ Creates a grid that covers the area of interest """
-    city_locations = []
-    file_reader = csv.reader(open(city_centroid_file, 'rb'), delimiter=',')
-
-    for row in file_reader:
-        lat = float(row[2])
-        lng = -1*float(row[3])
-        city = lat, lng
-        city_locations.append(city)
-
-    return city_locations
-
-cities = create_cities_list("library/geodata/canada_cities.csv")
+cities = cities_list("library/geodata/canada_cities.csv")
 
 progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
                 ETA()], maxval=(len(cities)*len(places))).start())
