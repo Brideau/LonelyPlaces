@@ -7,13 +7,13 @@ import requests
 from progressbar import Percentage, Bar, ProgressBar, \
     ETA
 from distancesphere import distance_on_unit_sphere
-from threading import Thread, Lock
 from random import randrange
-
-
+from creategrid import create_area_grid
+from threading import Lock
+from createthreads import create_threads
 from googleapikey import GOOGLE_API_KEY
 
-# Used to prevent file write issues later
+# Prevents write issues from threading
 print_lock = Lock()
 
 # New Brunswick
@@ -47,7 +47,7 @@ lng_SE = -52.524864
 places = ['grocery_or_supermarket', 'library']
 
 # Print CSV header
-print('place, lat, lng, latnear, lngnear, dist_miles')
+print('place, lat, lng, latnear, lngnear, dist_km')
 
 
 def output_nearest_place(latitude, longitude, poi):
@@ -56,8 +56,6 @@ def output_nearest_place(latitude, longitude, poi):
     curr_location = str(latitude) + "," + str(longitude)
     global progress
 
-    # 28-mile search radius, which guarantees
-    # coverage of a rectangular grid by circles
     url = "https://maps.googleapis.com/maps/api"
     url += "/place/search/json?location="
     url += curr_location + "&sensor=false&key="
@@ -76,14 +74,14 @@ def output_nearest_place(latitude, longitude, poi):
     # Output the nearest grocery store
     if len(d['results']) > 0:
 
-        least_miles = 999999999
+        least_km = 999999999
         for g in d['results']:
             near_lat = g['geometry']['location']['lat']
             near_lng = g['geometry']['location']['lng']
-            dist_miles = (distance_on_unit_sphere(latitude,
-                          longitude, near_lat, near_lng))
-            if dist_miles < least_miles:
-                least_miles = dist_miles
+            dist_km = (distance_on_unit_sphere(latitude,
+                       longitude, near_lat, near_lng))
+            if dist_km < least_km:
+                least_km = dist_km
                 nearest_lat = near_lat
                 nearest_lng = near_lng
         # Prevents issues with file writing
@@ -91,7 +89,7 @@ def output_nearest_place(latitude, longitude, poi):
         try:
             print(poi + ',' + curr_location + ','
                   + str(nearest_lat) + ',' + str(nearest_lng)
-                  + ',' + str(least_miles))
+                  + ',' + str(least_km))
             progress += 1
             progress_bar.update(progress)
         finally:
@@ -107,25 +105,6 @@ def output_nearest_place(latitude, longitude, poi):
             print_lock.release()
 
 
-def process_grid_sample(grid_sample, poi):
-    """ Given a  sample of the grid, this
-    calculates the nearest place to each point"""
-    for gridpoint in grid_sample:
-        output_nearest_place(gridpoint[0], gridpoint[1], poi)
-
-
-def create_threads(numthreads, grid, poi):
-    """ Splits the grid into n threads to do simultaneous API calls """
-    threads = []
-    for i in range(numthreads):
-        gridpoints = grid[i::numthreads]
-        thread = Thread(target=process_grid_sample, args=(gridpoints, poi))
-        threads.append(thread)
-
-    # Start each thread, and wait for them to finish before continuing
-    [t.start() for t in threads]
-    [t.join() for t in threads]
-
 # Gets the grid of points in the area to check
 area_grid = create_area_grid(lat_NW, lng_NW, lat_SE, lng_SE)
 
@@ -135,6 +114,6 @@ progress = 0
 
 # Has the grid split up into threads and processed
 for place in places:
-    create_threads(10, area_grid, place)
+    create_threads(output_nearest_place, area_grid, place, numthreads=10)
 
 progress_bar.finish()

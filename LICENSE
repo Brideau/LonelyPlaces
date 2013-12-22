@@ -5,6 +5,7 @@ Copyright (c) 2013 Ryan Brideau
 - Added ability to retrieve more than one place-type at the same time
 - Changed HTTP library to Requests
 - Updated spatial code to generalize for any country using GADM data
+- Changed to metric units since Google's API is in metric
 
 ORIGINAL AUTHOR:
 

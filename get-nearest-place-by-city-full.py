@@ -19,7 +19,7 @@ progress_bar = (ProgressBar(widgets=[Percentage(), Bar(),
                 ETA()], maxval=len(cities)).start())
 progress = 0
 
-print("lat,lng,latnear,lngnear,dist_miles")
+print("lat,lng,latnear,lngnear,dist_km")
 
 
 for city in cities:
@@ -38,8 +38,8 @@ for city in cities:
     curr_location = str(city[0]) + "," + str(city[1])
     nearest_lat = result[0]
     nearest_lng = result[1]
-    miles = result[2]
+    kilometres = result[2]
     print(curr_location + ',' + str(nearest_lat) + ','
-          + str(nearest_lng) + ',' + str(miles))
+          + str(nearest_lng) + ',' + str(kilometres))
 
 progress_bar.finish()

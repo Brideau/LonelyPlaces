@@ -5,7 +5,7 @@ import csv
 
 placeType = "art_gallery"
 
-print("lat, lng, latnear, lngnear, dist_miles")
+print("lat, lng, latnear, lngnear, dist_km")
 
 # Use when you have more than one file that needs to be combined
 # for i in range(1, 5):

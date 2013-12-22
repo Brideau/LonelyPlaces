@@ -1,8 +1,9 @@
-def create_area_grid(start_lat, start_lng, end_lat, end_lng, increment=0.29):
+def create_area_grid(start_lat, start_lng, end_lat, end_lng,
+                     increment=0.2697118131790):
     """ Creates a grid that covers the area of interest """
 
-    # increment = 0.29 ~ 20 miles
-    # increment = 0.001446863118997761 ~ 0.1 miles
+    # increment = 0.2697118131790 ~ 30 km
+    # increment = 0.0035961575091 ~ 400 m
 
     grid = []
 
