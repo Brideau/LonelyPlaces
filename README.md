@@ -1,6 +1,8 @@
 Lonely Places
 ===============
 
+NOTE: Lots more documentation needed.
+
 Extracts location data about various place types from Google Places, and produces a line map showing how close a grid of locations are from these places.
 
 Run in the following order if you want to scan an area with a uniform grid:
