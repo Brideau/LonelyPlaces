@@ -18,3 +18,4 @@ googleapikey.py
 *.PNG
 *.pdf
 /Maps
+*.idea
