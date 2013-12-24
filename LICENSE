@@ -6,6 +6,7 @@ Copyright (c) 2013 Ryan Brideau
 - Changed HTTP library to Requests
 - Updated spatial code to generalize for any country using GADM data
 - Changed to metric units since Google's API is in metric
+- Added timer for API calls
 
 ORIGINAL AUTHOR:
 
