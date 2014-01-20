@@ -5,14 +5,14 @@ from distancesphere import distance_on_unit_sphere
 from generatesearchlocations import cities_list, create_buildings_list, \
     create_area_grid
 
-placetype = "recycling"
-database = "Fredericton"
+placetype = "starbucks"
+database = "Vancouver"
 gridsize = "small"  # "small" / "large"
 scantype = "build_list"  # "grid" / "city_list" / "build_list"
 if (scantype == "build_list") or (scantype == "city_list"):
-    listname = 'library/geodata/locations.csv'
+    listname = '_Starbucks/ICIS_AddressBC.csv'
 
-approx_longitude = 49  # Used for distance approximation later
+approx_latitude = 49.3  # Used for distance approximation later
 
 db = (MySQLdb.connect(
       host="127.0.0.1",
@@ -49,8 +49,8 @@ else:
 print("lat,lng,latnear,lngnear,dist_km")
 
 lat_dist = str(distance_on_unit_sphere(1, 0, 0, 0))
-lng_dist = str(distance_on_unit_sphere(approx_longitude, 1,
-               approx_longitude, 0))
+lng_dist = str(distance_on_unit_sphere(approx_latitude, 1,
+               approx_latitude, 0))
 
 if scantype == "grid":
     locations = create_area_grid(lat_NW, lng_NW, lat_SE,

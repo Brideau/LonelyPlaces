@@ -29,27 +29,29 @@ def cities_list(city_centroid_file):
 
 
 def create_buildings_list(property_id_list):
-    """ Generate a set of a town list from a file """
-    file_reader = csv.reader(open(property_id_list, 'rb'), delimiter='\t')
-    town_locations = []
+    """ Generate a list of building locations from a list """
+    file_reader = csv.reader(open(property_id_list, 'rb'), delimiter=',')
+    building_locations = []
     skipped_header = False
     for row in file_reader:
         if not skipped_header:
             skipped_header = True
             continue
 
-        town = row[3]
-        if not town in nb_towns:
-            continue
         try:
-            x_coor = float(row[12])
-            y_coor = float(row[13])
+            # Modify depending on what column lat/long are stored in
+            x_coor = float(row[2])
+            y_coor = float(row[3])
         except ValueError:
             continue
-        location = pyproj.transform(nb_coords, wgs84, x_coor, y_coor)
-        town = location[1], location[0], nb_towns[town]
-        town_locations.append(town)
-    return town_locations
+        # Change the first argument of this depending on file projection, or
+        # switch comments if it's not necessary
+        # location = pyproj.transform(nb_coords, wgs84, x_coor, y_coor)
+
+        # building = location[1], location[0]
+        building = x_coor, y_coor
+        building_locations.append(building)
+    return building_locations
 
 
 def create_recycling_list(property_id_list):
@@ -62,14 +64,37 @@ def create_recycling_list(property_id_list):
             skipped_header = True
             continue
         try:
-            x_coor = float(row[1])
-            y_coor = float(row[2])
+            # Checks to see if a point of interest was found
+            x_coor = float(row[2])
+            y_coor = float(row[3])
         except ValueError:
             continue
-        location = pyproj.transform(nb_coords, wgs84, x_coor, y_coor)
-        depot = location[1], location[0]
+        # This cause an issue - spotted what I think was a bug
+        # but haven't had a chance to test it. This used to do a
+        # coordinate transformation like above, but it was unnecessary.
+        # If something breaks, try reversing the coordinates
+        depot = x_coor, y_coor
         recycling_locations.append(depot)
     return recycling_locations
+
+
+def create_list(property_id_list):
+    """ Generate a list from a csv file """
+    file_reader = csv.reader(open(property_id_list, 'rb'), delimiter=',')
+    locations = []
+    skipped_header = False
+    for row in file_reader:
+        if not skipped_header:
+            skipped_header = True
+            continue
+        try:
+            x_coor = float(row[5])
+            y_coor = float(row[6])
+        except ValueError:
+            continue
+        location = x_coor, y_coor
+        locations.append(location)
+    return locations
 
 
 def create_area_grid(start_lat, start_lng, end_lat, end_lng,

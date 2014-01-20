@@ -9,6 +9,7 @@ __pycache__/
 googleapikey.py
 /_CanadaData
 /_USData
+/_Starbucks
 /CanadaGeoData
 *.RData
 /Backup

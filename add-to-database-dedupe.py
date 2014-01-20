@@ -3,12 +3,13 @@
 
 import MySQLdb
 import csv
-from generatesearchlocations import create_recycling_list
+# Change this depending on the top of file you are loading
+from generatesearchlocations import create_list
 
-placetype = "grocery"
-database = "Fredericton"
-listtype = "standard"  # "standard" / "custom"
-filename = '_CanadaData/FrederictonGrocery.csv'
+placetype = "starbucks"
+database = "Vancouver"
+listtype = "custom"  # "standard" / "custom"
+filename = '_Starbucks/StarbucksinCanada.csv'
 
 db = (MySQLdb.connect(
       host="127.0.0.1",
@@ -34,7 +35,7 @@ c.execute(sql)
 if listtype == "standard":
     reader = csv.reader(open(filename, 'rb'), delimiter=',')
 else:
-    reader = create_recycling_list(filename)
+    reader = create_list(filename)
 
 if listtype == "standard":
     col1 = 2
@@ -45,10 +46,11 @@ else:
 
 skipped_header = False
 for row in reader:
-    # Skips the first line of each file
-    if not skipped_header:
-        skipped_header = True
-        continue
+    # Skips the first line of each file - not necessary for custom lists
+    if listtype == "standard":
+        if not skipped_header:
+            skipped_header = True
+            continue
 
     # If no result from Google
     if row[col1] == '' or row[col2] == '':
